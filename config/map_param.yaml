@@ -1,0 +1,18 @@
+map:
+    file_path: /home/giacomo/thai_ws/src/nav_map/excel_map/map_new.csv
+    width: 200
+    height: 200
+    resolution: 0.1
+    frame_id: /map
+    
+map_transform:
+    position:
+        x: -9.95
+        y: -9.95
+        z: 0.0
+    orientation:
+        roll: 0.0
+        pitch: 0.0
+        yaw: 0.0
+
+    

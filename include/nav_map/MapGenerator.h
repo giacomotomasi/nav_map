@@ -15,21 +15,33 @@
 #include <algorithm>
 
 #include "ros/ros.h"
-#include<lidar_xyz/BoundingBox3D.h>
+#include<nav_map/BoundingBox3DArray.h>
+#include<nav_msgs/OccupancyGrid.h>
 
 class MapGenerator {
 private:
         ros::Publisher map_pub;
+        ros::Subscriber obs_sub;
         ros::Subscriber path_sub;
+        std::string map_file_path;
+        std::string reference_frame;
+        nav_msgs::OccupancyGrid::Ptr map;
+        int width {};
+        int height {};
+        double resolution {};
+        std::vector<int> init_map {};
+        std::vector<int> obs_grid {};
         double safety;
+        int count_id {};
 public:
-        void obs_callback(const lidar_xyz::BoundingBox3D::ConstPtr& obs_msg);
-        std::vector<std::vector<int>> get_matrix();
-        void obs_points();
-        void get_grids(std::vector<double> &x, std::vector<double> &y, double &resolution, std::vector<std::vector<int>> &grid);
-        void update_map(std::vector<std::vector<int>> &map_matrix, std::vector<std::vector<int>> &obs);
+        void obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg);
+        void get_map();
+        //void obs_points(); // --> substituted by the callback
+        void get_grids(std::vector<double> &x, std::vector<double> &y, std::vector<int> &grid_vec);
+        void restore_map();
+        void update_map(std::vector<int> &obs);
         // Constructor
-        MapGenerator(ros::nodeHandle *n);
+        MapGenerator(ros::NodeHandle *n);
         // Destructor
         ~MapGenerator(); 
     };

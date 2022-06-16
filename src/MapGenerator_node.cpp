@@ -7,13 +7,14 @@
  
 #include <iostream>
 #include <ros/ros.h>
+#include <nav_map/MapGenerator.h>
 
 int main(int argc, char **argv){
     
-    ros::init(argc, argv, "map_generator_node");
+    ros::init(argc, argv, "MapGenerator_node");
     
     ros::NodeHandle n;
-    //MapGenerator mg(&n);
+    MapGenerator mg(&n);
     
     ros::spin();
     

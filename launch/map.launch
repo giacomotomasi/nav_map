@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    
+  <rosparam file="$(find nav_map)/config/map_param.yaml" />
+  
+  <node name="MapGenerator_node" pkg="nav_map" type="MapGenerator_node" output="screen" />
+  <node name="map_tf_broadcaster" pkg="nav_map" type="map_tf_broadcaster" output="screen" />
+  
+</launch>
