@@ -1,14 +1,15 @@
 map:
-    file_path: /home/giacomo/thai_ws/src/nav_map/excel_map/map_new.csv
+    file_path: /home/giacomo/thai_ws/src/nav_map/excel_map/B5_envMap.csv
     width: 200
     height: 200
     resolution: 0.1
-    frame_id: /map
+    frame_id: map
     
-map_transform:
+map_transform: 
+    child_frame: base_footprint
     position:
-        x: -9.95
-        y: -9.95
+        x: 0.0
+        y: 0.0
         z: 0.0
     orientation:
         roll: 0.0

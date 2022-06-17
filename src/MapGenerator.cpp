@@ -31,11 +31,11 @@ void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs
         double ax{0.0}, bx{0.0}, cx{0.0}, ay{0.0}, by{0.0}, cy{0.0};
         // define coordinates
         ax = obs_msg->bboxes.at(i).center.position.x - ((*obs_msg).bboxes.at(i).size.x/2);
-        ay =(*obs_msg).bboxes.at(i).center.position.y - ((*obs_msg).bboxes.at(i).size.y/2);
-        bx = ax;
-        by = (*obs_msg).bboxes.at(i).center.position.y + ((*obs_msg).bboxes.at(i).size.y/2);
-        cx = (*obs_msg).bboxes.at(i).center.position.x + ((*obs_msg).bboxes.at(i).size.x/2);
-        cy = ay;
+        ay = obs_msg->bboxes.at(i).center.position.y + ((*obs_msg).bboxes.at(i).size.y/2);
+        bx = obs_msg->bboxes.at(i).center.position.x + ((*obs_msg).bboxes.at(i).size.x/2);
+        by = ay;
+        cx = ax;
+        cy = obs_msg->bboxes.at(i).center.position.y - ((*obs_msg).bboxes.at(i).size.y/2);
         // 
         std::vector<double> x{ax,bx,cx};
         std::vector<double> y{ay,by,cy};
@@ -87,8 +87,8 @@ void MapGenerator::get_grids(std::vector<double> &x, std::vector<double> &y, std
         obstacle.push_back(std::vector<int> {cell_x, cell_y});
     
         }
-    for (int row=obstacle.at(0).at(0);row<obstacle.at(2).at(0)+1;row++){
-        for (int col=obstacle.at(0).at(1);col<obstacle.at(1).at(1);col++){
+    for (int row=obstacle.at(2).at(1);row<obstacle.at(1).at(1)+1;row++){
+        for (int col=obstacle.at(0).at(0);col<obstacle.at(1).at(0)+1;col++){
             int idxx {};
             idxx = col + row*width;
             grid.push_back(idxx);
@@ -117,6 +117,10 @@ void MapGenerator::update_map(std::vector<int> &obs){
     map->info.origin.position.x = ((-height*resolution)/2) + (resolution/2);
     map->info.origin.position.y = ((-width*resolution)/2) + (resolution/2);
     map->info.origin.position.z = 0;
+    map->info.origin.orientation.x = 0.0;
+    map->info.origin.orientation.y = 0.0;
+    map->info.origin.orientation.z = 0.0;
+    map->info.origin.orientation.w = 0.1;
     
     restore_map(); // restore map to initial map before adding obstacles (so you remove old ones)
     for (int aa {0};aa<num;aa++){
