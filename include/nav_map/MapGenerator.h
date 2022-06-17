@@ -31,7 +31,7 @@ private:
         double resolution {};
         std::vector<int> init_map {};
         std::vector<int> obs_grid {};
-        double safety;
+        int safety;
         int count_id {};
 public:
         void obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg);

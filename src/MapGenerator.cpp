@@ -87,8 +87,8 @@ void MapGenerator::get_grids(std::vector<double> &x, std::vector<double> &y, std
         obstacle.push_back(std::vector<int> {cell_x, cell_y});
     
         }
-    for (int row=obstacle.at(2).at(1);row<obstacle.at(1).at(1)+1;row++){
-        for (int col=obstacle.at(0).at(0);col<obstacle.at(1).at(0)+1;col++){
+    for (int row=obstacle.at(2).at(1)-safety;row<obstacle.at(1).at(1)+1+safety;row++){
+        for (int col=obstacle.at(0).at(0)-safety;col<obstacle.at(1).at(0)+1+safety;col++){
             int idxx {};
             idxx = col + row*width;
             grid.push_back(idxx);
@@ -141,6 +141,7 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     n->param("/map/height",height,200);
     n->param("/map/resolution",resolution,0.1);
     n->param<std::string>("/map/frame_id",reference_frame,"/map");
+    n->param("/map/safety_cells",safety,3);
     map = nav_msgs::OccupancyGrid::Ptr (new nav_msgs::OccupancyGrid());
     count_id = 0;
     std::vector<int> init_map {};
