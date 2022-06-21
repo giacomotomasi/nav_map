@@ -9,13 +9,26 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <math.h>
 
 #include "ros/ros.h"
+#include <tf/tf.h>
 #include<nav_msgs/OccupancyGrid.h>
+#include<nav_msgs/Odometry.h>
 #include<nav_map/BoundingBox3DArray.h>
-
 #include <nav_map/MapGenerator.h>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void MapGenerator::odom_callback(const nav_msgs::Odometry::ConstPtr &odom_msg){
+    robot_x = odom_msg->pose.pose.position.x;
+    robot_y = odom_msg->pose.pose.position.y;
+    // convert quaternions to rpy
+    tf::Quaternion q(odom_msg->pose.pose.orientation.x, odom_msg->pose.pose.orientation.y, odom_msg->pose.pose.orientation.z, odom_msg->pose.pose.orientation.w);
+    tf::Matrix3x3 m(q);
+    double roll {}, pitch {}, yaw {};
+    m.getRPY(roll, pitch, yaw);
+    robot_theta = yaw;
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg){
     /*   01234567
@@ -26,17 +39,24 @@ void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs
      */
      
      obs_grid.clear();
-     int n = (*obs_msg).bboxes.size();
+     int n = obs_msg->bboxes.size();
      for (int i {0};i<n;i++){
         double ax{0.0}, bx{0.0}, cx{0.0}, ay{0.0}, by{0.0}, cy{0.0};
         // define coordinates
-        ax = obs_msg->bboxes.at(i).center.position.x - ((*obs_msg).bboxes.at(i).size.x/2);
-        ay = obs_msg->bboxes.at(i).center.position.y + ((*obs_msg).bboxes.at(i).size.y/2);
-        bx = obs_msg->bboxes.at(i).center.position.x + ((*obs_msg).bboxes.at(i).size.x/2);
+        ax = obs_msg->bboxes.at(i).center.position.x - (obs_msg->bboxes.at(i).size.x/2);
+        ay = obs_msg->bboxes.at(i).center.position.y + (obs_msg->bboxes.at(i).size.y/2);
+        bx = obs_msg->bboxes.at(i).center.position.x + (obs_msg->bboxes.at(i).size.x/2);
         by = ay;
         cx = ax;
-        cy = obs_msg->bboxes.at(i).center.position.y - ((*obs_msg).bboxes.at(i).size.y/2);
-        // 
+        cy = obs_msg->bboxes.at(i).center.position.y - (obs_msg->bboxes.at(i).size.y/2);
+        // rotating obstacles
+//        ax = ax*cos(robot_theta) - ay*sin(robot_theta) + robot_x;
+//        ay = ax*sin(robot_theta) + ay*cos(robot_theta) + robot_y;
+//        bx = bx*cos(robot_theta) - by*sin(robot_theta) + robot_x;
+//        by = bx*sin(robot_theta) + by*cos(robot_theta) + robot_y;
+//        cx = cx*cos(robot_theta) - cy*sin(robot_theta) + robot_x;
+//        cy = cx*sin(robot_theta) + cy*cos(robot_theta) + robot_y;
+        //
         std::vector<double> x{ax,bx,cx};
         std::vector<double> y{ay,by,cy};
         // find coordinates in matrix (map)
@@ -146,8 +166,12 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     count_id = 0;
     std::vector<int> init_map {};
     std::vector<int> obs_grid {};
+    robot_x = 0;
+    robot_y = 0;
+    robot_theta = 0;
     // create ROS Subscriber
     obs_sub = n->subscribe("/boundingBoxArray",1, &MapGenerator::obs_callback, this);
+    odom_sub = n->subscribe("/odometry/filtered",1,&MapGenerator::odom_callback, this);
     // create ROS Publisher
     map_pub = n->advertise<nav_msgs::OccupancyGrid>("updated_map",1);
     get_map();

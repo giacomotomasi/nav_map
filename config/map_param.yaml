@@ -7,7 +7,7 @@ map:
     safety_cells: 1
     
 map_transform: 
-    child_frame: base_footprint
+    child_frame: odom
     position:
         x: 0.0
         y: 0.0

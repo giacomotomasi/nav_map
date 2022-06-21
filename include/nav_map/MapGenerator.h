@@ -17,15 +17,20 @@
 #include "ros/ros.h"
 #include<nav_map/BoundingBox3DArray.h>
 #include<nav_msgs/OccupancyGrid.h>
+#include<nav_msgs/Odometry.h>
 
 class MapGenerator {
 private:
         ros::Publisher map_pub;
         ros::Subscriber obs_sub;
         ros::Subscriber path_sub;
+        ros::Subscriber odom_sub;
         std::string map_file_path;
         std::string reference_frame;
         nav_msgs::OccupancyGrid::Ptr map;
+        double robot_x {};
+        double robot_y {};
+        double robot_theta {};
         int width {};
         int height {};
         double resolution {};
@@ -35,6 +40,7 @@ private:
         int count_id {};
 public:
         void obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg);
+        void odom_callback(const nav_msgs::Odometry::ConstPtr& odom_msg);
         void get_map();
         //void obs_points(); // --> substituted by the callback
         void get_grids(std::vector<double> &x, std::vector<double> &y, std::vector<int> &grid_vec);
