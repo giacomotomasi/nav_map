@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Grid1
         - /TF1/Frames1
-        - /PointCloud22
       Splitter Ratio: 0.5
     Tree Height: 719
   - Class: rviz/Selection
@@ -88,7 +87,7 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_footprint:
-          Value: false
+          Value: true
         base_link:
           Value: false
         front_bumper_link:
@@ -101,6 +100,8 @@ Visualization Manager:
           Value: false
         inertial_link:
           Value: false
+        map:
+          Value: true
         odom:
           Value: false
         rear_bumper_link:
@@ -128,36 +129,37 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            base_footprint:
-              velodyne:
+        map:
+          odom:
+            base_link:
+              base_footprint:
+                velodyne:
+                  {}
+              front_bumper_link:
                 {}
-            front_bumper_link:
-              {}
-            front_left_wheel_link:
-              {}
-            front_right_wheel_link:
-              {}
-            imu_link:
-              {}
-            inertial_link:
-              {}
-            rear_bumper_link:
-              {}
-            rear_left_wheel_link:
-              {}
-            rear_right_wheel_link:
-              {}
-            top_chassis_link:
-              {}
-            top_plate_link:
-              top_plate_front_link:
+              front_left_wheel_link:
                 {}
-              top_plate_rear_link:
+              front_right_wheel_link:
                 {}
-            user_rail_link:
-              {}
+              imu_link:
+                {}
+              inertial_link:
+                {}
+              rear_bumper_link:
+                {}
+              rear_left_wheel_link:
+                {}
+              rear_right_wheel_link:
+                {}
+              top_chassis_link:
+                {}
+              top_plate_link:
+                top_plate_front_link:
+                  {}
+                top_plate_rear_link:
+                  {}
+              user_rail_link:
+                {}
       Update Interval: 0
       Value: true
     - Class: rviz/MarkerArray
@@ -210,7 +212,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: base_footprint
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -234,7 +236,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 13.569989204406738
+      Distance: 10.508599281311035
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -242,17 +244,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.050538141280412674
-        Y: -1.4979382753372192
-        Z: -0.008905578404664993
+        X: 1.922439694404602
+        Y: -1.5368601083755493
+        Z: 0.7437157034873962
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1797966957092285
+      Pitch: 1.1197962760925293
       Target Frame: <Fixed Frame>
-      Yaw: 3.1354103088378906
+      Yaw: 3.357241153717041
     Saved: ~
 Window Geometry:
   Displays:

@@ -50,12 +50,12 @@ void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs
         cx = ax;
         cy = obs_msg->bboxes.at(i).center.position.y - (obs_msg->bboxes.at(i).size.y/2);
         // rotating obstacles
-//        ax = ax*cos(robot_theta) - ay*sin(robot_theta) + robot_x;
-//        ay = ax*sin(robot_theta) + ay*cos(robot_theta) + robot_y;
-//        bx = bx*cos(robot_theta) - by*sin(robot_theta) + robot_x;
-//        by = bx*sin(robot_theta) + by*cos(robot_theta) + robot_y;
-//        cx = cx*cos(robot_theta) - cy*sin(robot_theta) + robot_x;
-//        cy = cx*sin(robot_theta) + cy*cos(robot_theta) + robot_y;
+        ax = ax*cos(robot_theta) - ay*sin(robot_theta) + robot_x;
+        ay = ax*sin(robot_theta) + ay*cos(robot_theta) + robot_y;
+        bx = bx*cos(robot_theta) - by*sin(robot_theta) + robot_x;
+        by = bx*sin(robot_theta) + by*cos(robot_theta) + robot_y;
+        cx = cx*cos(robot_theta) - cy*sin(robot_theta) + robot_x;
+        cy = cx*sin(robot_theta) + cy*cos(robot_theta) + robot_y;
         //
         std::vector<double> x{ax,bx,cx};
         std::vector<double> y{ay,by,cy};
