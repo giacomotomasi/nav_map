@@ -12,7 +12,7 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "map_tf_broadcaster");
 
     ros::NodeHandle node;
-    ros::Rate rate(150);
+    ros::Rate rate(100);
     double x {}, y {}, z {}, roll {}, pitch {}, yaw {};
     std::string child_frame;
     
