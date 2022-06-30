@@ -4,7 +4,7 @@ map:
     height: 200
     resolution: 0.1
     frame_id: map
-    safety_cells: 1
+    safety_cells: 0
     
 map_transform: 
     child_frame: odom
