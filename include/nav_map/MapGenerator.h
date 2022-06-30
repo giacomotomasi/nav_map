@@ -17,7 +17,6 @@
 #include "ros/ros.h"
 #include<nav_map/BoundingBox3DArray.h>
 #include<nav_msgs/OccupancyGrid.h>
-#include<nav_msgs/Odometry.h>
 
 class MapGenerator {
 private:

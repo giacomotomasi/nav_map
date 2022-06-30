@@ -14,7 +14,6 @@
 #include "ros/ros.h"
 #include <tf/tf.h>
 #include<nav_msgs/OccupancyGrid.h>
-#include<nav_msgs/Odometry.h>
 #include<nav_map/BoundingBox3DArray.h>
 #include <nav_map/MapGenerator.h>
 
