@@ -19,17 +19,6 @@
 #include <nav_map/MapGenerator.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void MapGenerator::odom_callback(const nav_msgs::Odometry::ConstPtr &odom_msg){
-    robot_x = odom_msg->pose.pose.position.x;
-    robot_y = odom_msg->pose.pose.position.y;
-    // convert quaternions to rpy
-    tf::Quaternion q(odom_msg->pose.pose.orientation.x, odom_msg->pose.pose.orientation.y, odom_msg->pose.pose.orientation.z, odom_msg->pose.pose.orientation.w);
-    tf::Matrix3x3 m(q);
-    double roll {}, pitch {}, yaw {};
-    m.getRPY(roll, pitch, yaw);
-    robot_theta = yaw;
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg){
     /*   01234567
      *  0a------b
@@ -170,17 +159,13 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     count_id = 0;
     std::vector<int> init_map {};
     std::vector<int> obs_grid {};
-    robot_x = 0;
-    robot_y = 0;
-    robot_theta = 0;
     // create ROS Subscriber
     obs_sub = n->subscribe("/boundingBoxArray",1, &MapGenerator::obs_callback, this);
-    odom_sub = n->subscribe("/odometry/filtered",1,&MapGenerator::odom_callback, this);
     // create ROS Publisher
     map_pub = n->advertise<nav_msgs::OccupancyGrid>("updated_map",1);
     get_map();
-//    // publish first map
-//    map_pub.publish(map);
+    // publish first map
+    map_pub.publish(map);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
