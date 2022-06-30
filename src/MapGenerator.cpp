@@ -39,31 +39,35 @@ void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs
      */
      
      obs_grid.clear();
+     
      int n = obs_msg->bboxes.size();
-     for (int i {0};i<n;i++){
-        double ax{0.0}, bx{0.0}, cx{0.0}, ay{0.0}, by{0.0}, cy{0.0};
-        // define coordinates
-        ax = obs_msg->bboxes.at(i).center.position.x - (obs_msg->bboxes.at(i).size.x/2);
-        ay = obs_msg->bboxes.at(i).center.position.y + (obs_msg->bboxes.at(i).size.y/2);
-        bx = obs_msg->bboxes.at(i).center.position.x + (obs_msg->bboxes.at(i).size.x/2);
-        by = ay;
-        cx = ax;
-        cy = obs_msg->bboxes.at(i).center.position.y - (obs_msg->bboxes.at(i).size.y/2);
-        // rotating obstacles
-        ax = ax*cos(robot_theta) - ay*sin(robot_theta) + robot_x;
-        ay = ax*sin(robot_theta) + ay*cos(robot_theta) + robot_y;
-        bx = bx*cos(robot_theta) - by*sin(robot_theta) + robot_x;
-        by = bx*sin(robot_theta) + by*cos(robot_theta) + robot_y;
-        cx = cx*cos(robot_theta) - cy*sin(robot_theta) + robot_x;
-        cy = cx*sin(robot_theta) + cy*cos(robot_theta) + robot_y;
-        //
-        std::vector<double> x{ax,bx,cx};
-        std::vector<double> y{ay,by,cy};
-        // find coordinates in matrix (map)
+     if (n > 0){
+         for (int i {0};i<n;i++){
+            double ax{0.0}, bx{0.0}, cx{0.0}, ay{0.0}, by{0.0}, cy{0.0};
+            // define coordinates
+            ax = obs_msg->bboxes.at(i).center.position.x - (obs_msg->bboxes.at(i).size.x/2);
+            ay = obs_msg->bboxes.at(i).center.position.y + (obs_msg->bboxes.at(i).size.y/2);
+            bx = obs_msg->bboxes.at(i).center.position.x + (obs_msg->bboxes.at(i).size.x/2);
+            by = ay;
+            cx = ax;
+            cy = obs_msg->bboxes.at(i).center.position.y - (obs_msg->bboxes.at(i).size.y/2);
+            // rotating obstacles
+//            ax = ax*cos(robot_theta) - ay*sin(robot_theta) + robot_x;
+//            ay = ax*sin(robot_theta) + ay*cos(robot_theta) + robot_y;
+//            bx = bx*cos(robot_theta) - by*sin(robot_theta) + robot_x;
+//            by = bx*sin(robot_theta) + by*cos(robot_theta) + robot_y;
+//            cx = cx*cos(robot_theta) - cy*sin(robot_theta) + robot_x;
+//            cy = cx*sin(robot_theta) + cy*cos(robot_theta) + robot_y;
+            //
+            std::vector<double> x{ax,bx,cx};
+            std::vector<double> y{ay,by,cy};
+            // find coordinates in matrix (map)
 
-        get_grids(x, y, obs_grid);
-        update_map(obs_grid);
-        }
+            get_grids(x, y, obs_grid);
+            update_map(obs_grid); 
+            }
+        }else
+            update_map(obs_grid);   
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,6 +179,8 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     // create ROS Publisher
     map_pub = n->advertise<nav_msgs::OccupancyGrid>("updated_map",1);
     get_map();
+//    // publish first map
+//    map_pub.publish(map);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
