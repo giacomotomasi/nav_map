@@ -23,7 +23,6 @@ private:
         ros::Publisher map_pub;
         ros::Subscriber obs_sub;
         ros::Subscriber path_sub;
-        ros::Subscriber odom_sub;
         std::string map_file_path;
         std::string reference_frame;
         nav_msgs::OccupancyGrid::Ptr map;
