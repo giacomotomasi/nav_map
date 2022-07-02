@@ -13,7 +13,6 @@ class MapGenerator(object):
         # declare pubs and subs
         self.map_pub = rospy.Publisher('updated_map', OccupancyGrid, queue_size=1)
         self.obs_sub = rospy.Subscriber('/boundingBoxArray', BoundingBox3DArray, self.obs_callback)
-        #self.path_sub = rospy.Subscriber()
         # get parameters
         self.map_file_path = rospy.get_param('map/file_path', "/home/administrator/catkin_ws/src/nav_map/excel_map/B5_envMap.csv")
         self.reference_frame = rospy.get_param('map/frame_id', "map")
@@ -45,9 +44,9 @@ class MapGenerator(object):
                 y = [ay,by,cy]
 
                 self.get_grids(x,y)
-                self.update_map()
-            else:
-                self.update_map()
+            self.update_map()
+        else:
+            self.update_map()
 
     def get_map(self):
         # open the file
@@ -58,7 +57,7 @@ class MapGenerator(object):
             for line in map_reader:
                 for elem in line:
                     if (elem != ','):
-                        self.map.data.append(int(elem))
+                        #self.map.data.append(int(elem))
                         self.init_map.append(int(elem))
             mapp.close()
         else:
@@ -87,9 +86,10 @@ class MapGenerator(object):
                 self.obs_grid.append(idxx)
 
     def restore_map(self):
-        print("a")
         # restore map to initial map
-        self.map.data = self.init_map
+        self.map.data = []
+        for i in range(len(self.init_map)):
+            self.map.data.append(self.init_map[i])
 
     def update_map(self):
         n = len(self.obs_grid)
@@ -110,7 +110,7 @@ class MapGenerator(object):
 
         # restore map to initial map before adding obstacles (so you remove old ones)
         self.restore_map()
-        print(len(self.obs_grid))
+
         for index in self.obs_grid:
             self.map.data[index] = 100
         
