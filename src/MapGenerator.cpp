@@ -47,9 +47,9 @@ void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs
             // find coordinates in matrix (map)
 
             get_grids(x, y, obs_grid);
-            update_map(obs_grid); 
             }
-        }else
+        update_map(obs_grid); 
+        } else
             update_map(obs_grid);   
     }
 
