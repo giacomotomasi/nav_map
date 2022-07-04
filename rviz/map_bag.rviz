@@ -90,6 +90,16 @@ Visualization Manager:
           Value: true
         base_link:
           Value: false
+        camera_color_frame:
+          Value: false
+        camera_color_optical_frame:
+          Value: false
+        camera_depth_frame:
+          Value: false
+        camera_depth_optical_frame:
+          Value: false
+        camera_link:
+          Value: true
         front_bumper_link:
           Value: false
         front_left_wheel_link:
@@ -120,8 +130,6 @@ Visualization Manager:
           Value: false
         user_rail_link:
           Value: false
-        velodyne:
-          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -133,8 +141,13 @@ Visualization Manager:
           odom:
             base_link:
               base_footprint:
-                velodyne:
-                  {}
+                camera_link:
+                  camera_color_frame:
+                    camera_color_optical_frame:
+                      {}
+                  camera_depth_frame:
+                    camera_depth_optical_frame:
+                      {}
               front_bumper_link:
                 {}
               front_left_wheel_link:
