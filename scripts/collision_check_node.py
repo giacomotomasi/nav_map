@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """  * Project: Object detection                    
  * Author: Giacomo Tomasi              
  * E-Mail: giacomo.tomasi@unibz.it         
@@ -42,7 +44,9 @@ class CollisionCheck(object):
         self.collision_pub.publish(self.collision)
 
 def main():
-    pass
+    rospy.init_node('collision_check_node', anonymous=True)
+    cc = CollisionCheck()
+    rospy.spin()
 
 if __name__ == '__main__':
     main()
