@@ -4,8 +4,9 @@ import csv
 import time
 import csv
 import rospy
-from nav_msgs.msg import OccupancyGrid
 import tf
+from nav_msgs.msg import OccupancyGrid
+from std_msgs.msg import UInt16MultiArray
 from nav_map.msg import BoundingBox3DArray
 
 class MapGenerator(object):
@@ -13,6 +14,7 @@ class MapGenerator(object):
         # declare pubs and subs
         self.map_pub = rospy.Publisher('updated_map', OccupancyGrid, queue_size=1)
         self.obs_sub = rospy.Subscriber('/boundingBoxArray', BoundingBox3DArray, self.obs_callback)
+        self.obs_pub = rospy.Publisher('obstacle_cells', UInt16MultiArray,queue_size=1)
         # get parameters
         self.map_file_path = rospy.get_param('map/file_path', "/home/administrator/catkin_ws/src/nav_map/excel_map/B5_envMap.csv")
         self.reference_frame = rospy.get_param('map/frame_id', "map")
@@ -80,10 +82,13 @@ class MapGenerator(object):
 
             obstacle.append([cell_x, cell_y])
 
+        obstacle_cells = UInt16MultiArray()
         for row in range(obstacle[2][1]-self.safety, obstacle[1][1]+self.safety+1):
             for col in range(obstacle[0][0]-self.safety, obstacle[1][0]+self.safety+1):
                 idxx = col + row*self.width
                 self.obs_grid.append(idxx)
+                obstacle_cells.data.append(idxx)
+        self.obs_pub.publish(obstacle_cells)
 
     def restore_map(self):
         # restore map to initial map

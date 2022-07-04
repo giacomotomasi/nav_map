@@ -16,6 +16,7 @@
 #include<nav_msgs/OccupancyGrid.h>
 #include<nav_map/BoundingBox3DArray.h>
 #include <nav_map/MapGenerator.h>
+#include <std_msgs/UInt16MultiArray.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg){
@@ -94,13 +95,18 @@ void MapGenerator::get_grids(std::vector<double> &x, std::vector<double> &y, std
         obstacle.push_back(std::vector<int> {cell_x, cell_y});
     
         }
+    
+    std_msgs::UInt16MultiArray::Ptr obstacle_cells (new std_msgs::UInt16MultiArray());
     for (int row=obstacle.at(2).at(1)-safety;row<obstacle.at(1).at(1)+1+safety;row++){
         for (int col=obstacle.at(0).at(0)-safety;col<obstacle.at(1).at(0)+1+safety;col++){
             int idxx {};
             idxx = col + row*width;
             grid.push_back(idxx);
+            obstacle_cells->data.push_back(idxx);
+            //std::cout << idxx << " ";
             }
-        }       
+        }
+    obs_pub.publish(obstacle_cells);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +163,7 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     obs_sub = n->subscribe("/boundingBoxArray",1, &MapGenerator::obs_callback, this);
     // create ROS Publisher
     map_pub = n->advertise<nav_msgs::OccupancyGrid>("updated_map",1);
+    obs_pub = n->advertise<std_msgs::UInt16MultiArray>("obstacle_cells",1);
     get_map();
     // publish first map
     map_pub.publish(map);

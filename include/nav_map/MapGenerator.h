@@ -21,6 +21,7 @@
 class MapGenerator {
 private:
         ros::Publisher map_pub;
+        ros::Publisher obs_pub;
         ros::Subscriber obs_sub;
         ros::Subscriber path_sub;
         std::string map_file_path;
