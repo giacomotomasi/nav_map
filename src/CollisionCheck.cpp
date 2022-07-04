@@ -36,18 +36,20 @@
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  void CollisionCheck::check(){
      // check for path availability
-     if (path.size() == 0)
+     if (path.size() == 0){
          ROS_WARN_STREAM("Path is empty. Not receiving data.");
-         
-     for (std::vector<int>::iterator obs_cell = obs.begin(); obs_cell != obs.end(); obs_cell++){
-         for (std::vector<int>::iterator path_cell = path.begin(); path_cell != path.end(); path_cell++){
-             if (*obs_cell == *path_cell){
-                 collision.data = true;
-                 break;
-                 } else
-                     collision.data = false;
-             }
-         }
+         collision.data = false;
+         } else {
+             for (std::vector<int>::iterator obs_cell = obs.begin(); obs_cell != obs.end(); obs_cell++){
+                 for (std::vector<int>::iterator path_cell = path.begin(); path_cell != path.end(); path_cell++){
+                     if (*obs_cell == *path_cell){
+                         collision.data = true;
+                         break;
+                         } else
+                             collision.data = false;
+                     }
+                 }
+            }
       collision_pub.publish(collision);
     }
  
@@ -59,10 +61,9 @@
      collision_pub = n->advertise<std_msgs::Bool>("collision", 1);
      // create ROS Subscriber
      obs_sub = n->subscribe("/obstacle_cells", 1, &CollisionCheck::obs_callback, this);
-     path_sub = n->subscribe("path_cells",1, &CollisionCheck::path_callback, this);
+     path_sub = n->subscribe("/path_cells",1, &CollisionCheck::path_callback, this);
      
      collision.data = false;
-     
  }
  
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
