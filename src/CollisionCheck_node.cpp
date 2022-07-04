@@ -14,7 +14,7 @@
      ros::init(argc, argv, "CollisionCheck_node");
      
      ros::NodeHandle n;
-     // CollisionCheck cc(&n);
+     CollisionCheck cc(&n);
      
      ros::spin();
      

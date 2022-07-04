@@ -21,6 +21,8 @@
      for (int i {0}; i<n; i++){
         obs.push_back(obs_msg->data.at(i));
          }
+     // check for collision
+     check();
      }
  
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +35,10 @@
  
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  void CollisionCheck::check(){
+     // check for path availability
+     if (path.size() == 0)
+         ROS_WARN_STREAM("Path is empty. Not receiving data.");
+         
      for (std::vector<int>::iterator obs_cell = obs.begin(); obs_cell != obs.end(); obs_cell++){
          for (std::vector<int>::iterator path_cell = path.begin(); path_cell != path.end(); path_cell++){
              if (*obs_cell == *path_cell){
