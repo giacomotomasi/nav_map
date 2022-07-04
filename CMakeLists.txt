@@ -52,5 +52,7 @@ target_link_libraries(MapGenerator_node ${catkin_LIBRARIES})
 add_executable(map_tf_broadcaster src/map_tf_broadcaster.cpp)
 target_link_libraries(map_tf_broadcaster ${catkin_LIBRARIES})
 
+add_executable(CollisionCheck_node src/CollisionCheck_node.cpp src/CollisionCheck.cpp)
+target_link_libraries(CollisionCheck_node ${catkin_LIBRARIES})
 
 
