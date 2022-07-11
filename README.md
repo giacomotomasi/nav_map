@@ -5,21 +5,11 @@ Additionally it provides a node for collisions check. Given a path it return a t
 
 
 
-<div style="width: 10%; height: 10%">
+<div style="width: 0.50%; height: 0.50%">
   
   ![Excel map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png) 
   
-</div>
-
-
-<div style="width: 50%; height: 50%">
-  
   ![OccupancyGrid map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_free.png) 
-  
-</div>
-
-
-<div style="width: 50%; height: 50%">
   
   ![Update map with obstacle](https://github.com/giacomotomasi/nav_map/blob/main/img/map_obs.png)
   
