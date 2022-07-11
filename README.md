@@ -5,4 +5,4 @@ Additionally it provides a node for collisions check. Given a path it return a t
 
 
 
-<img src="https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png" width="5%" height="5%">
+<img src="https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png" width="35%" height="35%">
