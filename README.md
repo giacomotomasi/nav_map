@@ -3,6 +3,6 @@ This package is thought to work with [camera3d_xyzrgb](https://github.com/giacom
 
 Additionally it provides a node for collisions check. Given a path it return a true message if the path cells overplap any cell that represents an obstacle area in the map.
 
-![Excel map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png | width=100) 
+![Excel map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png | width=100px) 
 ![OccupancyGrid map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_free.png | width=100) 
 ![Update map with obstacle](https://github.com/giacomotomasi/nav_map/blob/main/img/map_obs.png | width=100)
