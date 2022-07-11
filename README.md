@@ -5,7 +5,7 @@ Additionally it provides a node for collisions check. Given a path it return a t
 
 
 
-<div style="width: 50%; height: 50%">
+<div style="width: 10%; height: 10%">
   
   ![Excel map](https://github.com/giacomotomasi/nav_map/blob/main/img/map_excel.png) 
   
