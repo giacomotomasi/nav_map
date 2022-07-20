@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    
+  <include file="$(find nav_map)/launch/map.launch" />
+  <include file="$(find camera3d_xyzrgb)/launch/object_detection.launch" />
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find nav_map)/rviz/map_bag.rviz" />
+  
+</launch>

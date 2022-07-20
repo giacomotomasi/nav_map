@@ -6,9 +6,9 @@
   <node pkg="rosbag" type="play" name="player" output="screen" args="-l --clock /home/giacomo/Desktop/bagfiles/map_lidar2.bag" />
   
   <include file="$(find nav_map)/launch/map.launch" />
-  <node name="detector_node" pkg="realsense_devel" type="detector_node" output="screen" />
-  <node name="bbox_node" pkg="realsense_devel" type="bbox_node" output="screen" />
-  <node name="camera_tf_broadcaster" pkg="realsense_devel" type="camera_tf_broadcaster" output="screen" />
+  <node name="detector_node" pkg="camera3d_xyzrgb" type="detector_node" output="screen" />
+  <node name="bbox_node" pkg="camera3d_xyzrgb" type="bbox_node" output="screen" />
+  <node name="camera_tf_broadcaster" pkg="camera3d_xyzrgb" type="camera_tf_broadcaster" output="screen" />
   <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find nav_map)/rviz/map_bag.rviz" />
   
 </launch>
