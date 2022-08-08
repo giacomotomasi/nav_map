@@ -17,6 +17,7 @@
 #include "ros/ros.h"
 #include<nav_map/BoundingBox3DArray.h>
 #include<nav_msgs/OccupancyGrid.h>
+#include <std_msgs/UInt16MultiArray.h>
 
 class MapGenerator {
 private:
@@ -32,10 +33,12 @@ private:
         double resolution {};
         std::vector<int> init_map {};
         std::vector<int> obs_grid {};
+        std::vector<int> path_grid {};
         int safety;
         int count_id {};
 public:
         void obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg);
+        void path_callback(const std_msgs::UInt16MultiArray::ConstPtr& path_msg);
         void get_map();
         //void obs_points(); // --> substituted by the callback
         void get_grids(std::vector<double> &x, std::vector<double> &y, std::vector<int> &grid_vec);
