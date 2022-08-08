@@ -48,6 +48,8 @@
                          } else
                              collision.data = false;
                      }
+                 if (collision.data == true)
+                     break;
                  }
             }
       collision_pub.publish(collision);
