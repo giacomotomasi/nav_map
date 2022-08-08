@@ -19,6 +19,14 @@
 #include <std_msgs/UInt16MultiArray.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void  MapGenerator::path_callback(const std_msgs::UInt16MultiArray::ConstPtr& path_msg){
+    int n = path_msg->data.size();
+     for (int i {0}; i<n; i++){
+        path_grid.push_back(path_msg->data.at(i));
+         }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MapGenerator::obs_callback(const nav_map::BoundingBox3DArray::ConstPtr& obs_msg){
     /*   01234567
      *  0a------b
@@ -119,6 +127,7 @@ void MapGenerator::restore_map(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MapGenerator::update_map(std::vector<int> &obs){
     int num = obs.size();
+    int path_size = path_grid.size();
     
     map->header.seq = count_id++;
     map->header.stamp = ros::Time::now();
@@ -141,6 +150,11 @@ void MapGenerator::update_map(std::vector<int> &obs){
         map->data.at(index) = 100;
         }
         
+    for (int nn {0};nn<path_size;nn++){
+        int indx = path_grid.at(nn);
+        map->data.at(indx) = 50;
+        }
+        
     map_pub.publish(map);
     }
     
@@ -159,8 +173,10 @@ MapGenerator::MapGenerator(ros::NodeHandle *n){
     count_id = 0;
     std::vector<int> init_map {};
     std::vector<int> obs_grid {};
+    std::vector<int> path_grid {};
     // create ROS Subscriber
     obs_sub = n->subscribe("/boundingBoxArray",1, &MapGenerator::obs_callback, this);
+    path_sub = n->subscribe("/path_cells",1, &MapGenerator::path_callback, this);
     // create ROS Publisher
     map_pub = n->advertise<nav_msgs::OccupancyGrid>("updated_map",1);
     obs_pub = n->advertise<std_msgs::UInt16MultiArray>("obstacle_cells",1);
